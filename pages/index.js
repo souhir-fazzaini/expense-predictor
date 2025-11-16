@@ -2,25 +2,25 @@ import React, { useState } from "react";
 import styles from './Home.module.css'; // Import as CSS Module
 
 export default function Home() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+        const [email, setEmail] = useState("");
+        const [password, setPassword] = useState("");
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        const res = await fetch("/api/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
-        });
+        const handleLogin = async (e) => {
+            e.preventDefault();
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
 
-        const data = await res.json();
-        if (res.ok) {
-            alert("Login successful! Token: " + data.token);
-            window.location.href = "/dashboard";
-        } else {
-            alert(data.message);
-        }
-    };
+            const data = await res.json();
+            if (res.ok) {
+                alert("Login successful! Token: " + data.token);
+                window.location.href = "/dashboard";
+            } else {
+                alert(data.message);
+            }
+        };
 
     return (
         <div className={styles.container}>
