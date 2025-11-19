@@ -24,13 +24,15 @@ export default async function handler(req, res) {
             console.error(error);
             res.status(500).json({ message: "Error adding expense", error });
         }
-    } else if (req.method === "GET") {
+    } else  if (req.method === "GET") {
         try {
-            const [rows] = await pool.query("SELECT * FROM expenses ORDER BY created_at DESC");
-            res.status(200).json(rows);
+            // Calculer la somme totale de toutes les dépenses
+            const [rows] = await pool.query("SELECT SUM(amount) AS total FROM expenses");
+            const total = rows[0].total || 0; // si aucune dépense, total = 0
+            res.status(200).json({ total });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: "Error fetching expenses" });
+            res.status(500).json({ message: "Error fetching total expenses" });
         }
     } else {
         res.status(405).json({ message: "Method not allowed" });
