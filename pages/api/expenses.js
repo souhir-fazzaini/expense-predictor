@@ -27,9 +27,15 @@ export default async function handler(req, res) {
     } else  if (req.method === "GET") {
         try {
             // Calculer la somme totale de toutes les dépenses
-            const [rows] = await pool.query("SELECT SUM(amount) AS total FROM expenses");
-            const total = rows[0].total || 0; // si aucune dépense, total = 0
-            res.status(200).json({ total });
+            // Récupérer la liste de toutes les dépenses et le total
+            const [rows] = await pool.query("SELECT * FROM expenses");
+            const [totalResult] = await pool.query("SELECT SUM(amount) as total FROM expenses");
+            const total = totalResult[0].total || 0;
+
+            res.status(200).json({
+                expenses: rows,
+                total: total
+            });
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Error fetching total expenses" });
