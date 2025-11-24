@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import styles from './Home.module.css'; // Import as CSS Module
+import styles from './Home.module.css';
+import {router} from "next/client";
 
 export default function Home() {
         const [email, setEmail] = useState("");
@@ -21,6 +22,10 @@ export default function Home() {
                 alert(data.message);
             }
         };
+    const handleSignup = () => {
+        // Navigation vers la page d'inscription
+        router.push('/signup');
+    };
 
     return (
         <div className={styles.container}>
@@ -61,6 +66,15 @@ export default function Home() {
                         Reset here
                     </a>
                 </p>
+
+                {/* Bouton d'inscription ajouté */}
+                <button
+                    type="button"
+                    className={styles.signupButton}
+                    onClick={handleSignup}
+                >
+                    Sign Up
+                </button>
             </form>
         </div>
     );
